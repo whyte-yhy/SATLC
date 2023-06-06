@@ -271,14 +271,6 @@ void Satlike::local_search_with_decimation(char *inputfile)
 
         // compute additional score
         for (int c = 0; c < num_clauses; ++c) {
-//            if (org_clause_weight[c] == top_clause_weight) {
-//                continue;
-//            }
-//            else if (sat_count[c] > 0) {
-//                basis_clause_weight[c] += 1;
-//            }
-            //if (basis_clause_weight[c] > 0.5)
-            //basis_clause_weight[c] *= 0.8;
             if (sat_count[c] > 0) {
                 basis_clause_weight[c] += 1;
             }
