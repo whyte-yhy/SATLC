@@ -8,11 +8,6 @@ using namespace std;
 
 class Decimation
 {
-//private:
-//    int *hardunsat_stack = nullptr;		   //store the unsat clause number
-//    int *index_in_hardunsat_stack = nullptr; //which position is a clause in the unsat_stack
-//    int hardunsat_stack_fill_pointer = 0;
-
 public:
     Decimation(lit **ls_var_lit, int *ls_var_lit_count, lit **ls_clause_lit, long long *ls_org_clause_weight, long long ls_top_clause_weight);
 
@@ -24,7 +19,6 @@ public:
     void remove_unassigned_var(int v);
     void hunit_propagation();
     void sunit_propagation();
-//    void hard_random_propagation();
     void unit_prosess();
     void random_propagation();
 
@@ -109,10 +103,6 @@ void Decimation::make_space(int max_c, int max_v)
 
     clause_delete = new int[max_c];
     clause_lit_count = new int[max_c];
-
-//    hardunsat_stack = new int[max_c];
-//    index_in_hardunsat_stack = new int[max_c];
-
 }
 
 void Decimation::free_memory()
@@ -136,10 +126,6 @@ void Decimation::free_memory()
 
     delete[] clause_delete;
     delete[] clause_lit_count;
-
-//    delete[] hardunsat_stack;
-//    delete[] index_in_hardunsat_stack;
-
 }
 
 void Decimation::init(int *ls_local_opt, int *ls_global_opt, lit *ls_unit_clause, int ls_unit_clause_count, const int *ls_clause_lit_count, int ls_solu_feasible, bool ls_solu_improved, int ls_h_inc)
@@ -154,7 +140,6 @@ void Decimation::init(int *ls_local_opt, int *ls_global_opt, lit *ls_unit_clause
     sunit_end_pointer = 0;
 
     unassigned_var_count = num_vars;
-//    hardunsat_stack_fill_pointer = 0;
 
     init_solu_feasible = ls_solu_feasible;
     h_inc = ls_h_inc;
@@ -348,15 +333,12 @@ void Decimation::hunit_propagation()
         }
         else {
             sense = global_opt[v];
-            //sense = rand() % 2;
         }
 
-        //if (init_solu_feasible == 0) {
         for (int i = 0; i < var_lit_count[v]; ++i) {
             c = var_lit[v][i].clause_num;
             basis_clause_weight[c] += 1;
         }
-        //}
 
     }
     assign(v, sense);
@@ -412,12 +394,6 @@ void Decimation::sunit_propagation()
     {
         sense = rand() % 2;
         //sense = global_opt[v];
-
-//        for (int i = 0; i < var_lit_count[v]; ++i) {
-//            if (org_clause_weight[i] != top_clause_weight)
-//                basis_clause_weight[var_lit[v][i].clause_num] += 1;
-//        }
-
     }
     assign(v, sense);
 }
@@ -425,24 +401,8 @@ void Decimation::sunit_propagation()
 
 void Decimation::random_propagation() {
     int v = -1, sense = -1;
-//    int ht = 8;
-//
-//    for (int i=0; i<min(unassigned_var_count, ht); i++) {
-//        v = unassigned_var[rand() % unassigned_var_count];
-//        if (hscore[v] > 0) {
-//            sense = hscore[v]==h_true_score[v] ? 1 : 0;
-//            break;
-//        }
-//    }
-//
-//    if (sense == -1) {
-//        v = unassigned_var[rand() % unassigned_var_count];
-//        sense = rand() % 2;
-//    }
-
     v = unassigned_var[rand() % unassigned_var_count];
     sense = rand() % 2;
-
     assign(v, sense);
 }
 
